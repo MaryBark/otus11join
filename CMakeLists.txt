@@ -42,7 +42,7 @@ set_target_properties(Otus_cpp_11 PROPERTIES
 enable_testing()
 add_executable(Otus_cpp_11_tests ${HEADER_FILES} main.cpp)
 
-set_target_properties(Otus_cpp_11_tests PROPERTIES INCLUDE_DIRECTORIES ${GTEST_INCLUDE_DIRS} )
+set_target_properties(Otus_cpp_11_tests PROPERTIES ${INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})
 
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
         set_target_properties(Otus_cpp_11 PROPERTIES COMPILE_OPTIONS -W3)
