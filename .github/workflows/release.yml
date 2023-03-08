@@ -1,10 +1,43 @@
+# language: cpp
+# addons:
+#   apt:
+#     sources:
+#       - ubuntu-toolchain-r-test
+#     packages:
+#       - g++-7
+# before_script:
+#   - sudo apt-get update
+#   - export CXX=/usr/bin/g++-7
+#   - export CC=/usr/bin/gcc-7
+#   - sudo apt-get install libboost-system-dev -y
+#   - sudo apt-get install libgtest-dev cmake -y
+
+#   - cd /usr/src/gtest
+#   - sudo cmake .
+#   - sudo make
+#   - sudo cp *.a /usr/lib
+#   - cd "${TRAVIS_BUILD_DIR}"   
+  
+# script: 
+#   - cmake .
+#   - cmake --build .
+#   - cmake --build . --target test  
+#   - cmake --build . --target package  
+# deploy: 
+#   - provider: script
+#     skip_cleanup: true
+#     script:       
+#      - curl -T join_server-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb -upk-otus:$BINTRAY_API_KEY "https://api.bintray.com/content/pk-otus/OTUS/join_server/$TRAVIS_BUILD_NUMBER/join_server.$TRAVIS_BUILD_NUMBER-Linux.deb;deb_distribution=trusty;deb_component=main;deb_architecture=amd64;publish=1" 
+  
+
+
 name: 'C++ CI'
 
 on:
   push:
     branches:
       - main
-      - feature/github_actions
+
 
 jobs:
   build:
@@ -13,8 +46,12 @@ jobs:
       - uses: actions/checkout@v2
         with:
           submodules: true
-      - run: sudo apt-get update && sudo apt-get install libboost-dev -y
-      - run: sudo apt-get install libgtest-dev libgmock-dev
+      - run: sudo apt-get update
+#       before_script:
+#       - export CXX=/usr/bin/g++-7
+#       - export CC=/usr/bin/gcc-7
+      - run: sudo apt-get install libboost-system-dev -y
+      - run: sudo apt-get install libgtest-dev cmake -y
       - run: cmake . -DPATCH_VERSION=${{ github.run_number }} -DWITH_GOOGLE_TEST=ON
       - run: cmake --build .
       - run: cmake --build . --target test
